@@ -28,5 +28,21 @@ namespace Multitronics.Controllers
 
             return View();
         }
+        //
+        public ActionResult SomeProduct()
+        {
+            ViewBag.id = RouteData.Values["id"].ToString();
+            return View();
+        }
+        //
+        public ActionResult Product()
+        {
+            return Redirect(Url.Action("Products", "Home"));
+        }
+        //
+        public ActionResult Products()
+        {
+            return View();
+        }
     }
 }
