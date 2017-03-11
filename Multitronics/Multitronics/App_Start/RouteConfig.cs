@@ -14,6 +14,11 @@ namespace Multitronics
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
+                name: "some_product_gata",
+                url: "Product/{id}/data",
+                defaults: new { controller = "Home", action = "SomeProductData" }
+            );
+            routes.MapRoute(
                 name: "some_product",
                 url: "Product/{id}",
                 defaults: new { controller = "Home", action = "SomeProduct" }

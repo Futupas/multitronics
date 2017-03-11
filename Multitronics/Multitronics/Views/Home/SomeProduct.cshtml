@@ -3,6 +3,21 @@
 }
 
 <h2>Product</h2>
-<p>Id: @ViewBag.id</p>
+<p>Id: @ViewBag.Id</p>
+<div id="maindiv">
 
-@Html.Raw(ViewBag.Main)
+</div>
+
+@section scripts{
+    <script>
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', (window.location.pathname + '/data'), true);
+        xhr.send();
+        xhr.onreadystatechange = function () {
+            if (xhr.status == 200 && xhr.readyState == 4) {
+                //xhr.responseText;
+                document.getElementById('maindiv').innerHTML = xhr.responseText;
+            }
+        }
+    </script>
+}

@@ -33,16 +33,21 @@ namespace Multitronics.Controllers
         public ActionResult SomeProduct()
         {
             ViewBag.id = RouteData.Values["id"].ToString();
-
+            return View();
+        }
+        // just product's info
+        [HttpGet]
+        public ActionResult SomeProductData()
+        {
             SqlConnection conn = new SqlConnection();
             conn.ConnectionString = @"Server=mssql3.gear.host;Database=multitronics;User Id=multitronics;Password=Jl8bl98_?E2o;";
             SqlCommand command = new SqlCommand(String.Format("SELECT * FROM [dbo].[Products] WHERE [WebName]='{0}';", RouteData.Values["id"]), conn);
             conn.Open();
             SqlDataReader reader = command.ExecuteReader();
-
+            string retdata = "";
             if (!reader.HasRows)
             {
-                ViewBag.Main = "<h3 style='color: #ff0000;'>Такого товара нету.</h3>";
+                retdata = "<h3 style='color: #ff0000;'>Такого товара нету.</h3>";
             }
             else
             {
@@ -51,14 +56,14 @@ namespace Multitronics.Controllers
                 {
                     string pr = String.Format("<h3>{0}</h3><p>{1}</p><p>Количество товаров: {2}</p><p>Вся информация берется из базы данных.</p>",
                         reader["Name"], reader["Description"], reader["Count"]);
-                    ViewBag.Main = pr;
+                    retdata = pr;
                 }
             }
             
             conn.Close();
             conn.Dispose();
 
-            return View();
+            return Content(retdata);
         }
         //
         public ActionResult Product()
