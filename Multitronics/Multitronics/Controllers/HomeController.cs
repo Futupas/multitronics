@@ -41,7 +41,7 @@ namespace Multitronics.Controllers
         {
             SqlConnection conn = new SqlConnection();
             conn.ConnectionString = @"Server=mssql3.gear.host;Database=multitronics;User Id=multitronics;Password=Jl8bl98_?E2o;";
-            SqlCommand command = new SqlCommand(String.Format("SELECT * FROM [dbo].[Products] WHERE [WebName]='{0}';", RouteData.Values["id"]), conn);
+            SqlCommand command = new SqlCommand(String.Format("SELECT * FROM [dbo].[Product] WHERE [WebName]='{0}';", RouteData.Values["id"]), conn);
             conn.Open();
             SqlDataReader reader = command.ExecuteReader();
             string retdata = "";
