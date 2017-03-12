@@ -21,6 +21,25 @@
 @section scripts{
     @Scripts.Render("~/bundles/VueJS")
     <script>
+        var TestData = {
+            Name: 'Товар 1',
+            Description: 'Очень важный товар',
+            Price: 800,
+            Count: 10,
+            PhotoSrc: 'https://www.aviary.com/img/photo-landscape.jpg',
+            Specifications: 'Ширина=5мм;Высота=10мм;Радиус=100мм;WiFi=есть;Количество USB портов=5-6'
+        };
+        var TestComments = [{
+            AuthorName: 'Саша',
+            Text: 'Очень классный товар. Всем рекомендую))))0))00)'
+        }, {
+            AuthorName: 'Дима',
+            Text: 'Ужас. Просто ужасная вещь. Сломалась от падения на пол'
+        }, {
+            AuthorName: 'Света1999',
+            Text: 'Хз, вродь все норм'
+        }];
+
         var data = {
             bears: [
                 { name: 'Misha', color: 'White' },
