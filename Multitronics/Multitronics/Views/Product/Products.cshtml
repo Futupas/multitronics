@@ -1,0 +1,59 @@
+﻿@{
+    ViewBag.Title = "Товары";
+}
+
+
+<p>Этот текст статичен, ссылки тоже.</p>
+<a href="/Product/product-1">Товар 1</a>
+<a href="/Product/product-2">Товар 2</a>
+<a href="/Product/product-3">Товар 3</a>
+<a href="/Product/loremipsum">Несуществующий товар</a>
+
+<div class="col-md-4">
+    <div id="product-list">
+
+        <div class="product-item">
+            <p class="name">Имя</p>
+            <div class="photo">
+                <img src="img/photo.jpg" alt="">
+            </div>
+            <p class="desc">Описание</p>
+            <p class="price">Цена</p>
+            <p class="button"><a class="green" href="/">Ссылка на него</a></p>
+        </div>
+    </div>
+</div>
+<div class="col-md-4">
+    <div id="product-list">
+
+        <div class="product-item">
+            <p class="name">Имя</p>
+            <div class="photo">
+                <img src="img/photo.jpg" alt="">
+            </div>
+            <p class="desc">Описание</p>
+            <p class="price">Цена</p>
+            <p class="button"><a class="green" href="/">Ссылка на него</a></p>
+        </div>
+    </div>
+</div><div class="col-md-4">
+    <div id="product-list">
+
+        <div class="product-item">
+            <p class="name">Имя</p>
+            <div class="photo">
+                <img src="img/photo.jpg" alt="">
+            </div>
+            <p class="desc">Описание</p>
+            <p class="price">Цена</p>
+            <p class="button"><a class="green" href="/">Ссылка на него</a></p>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    @Scripts.Render("~/bundles/VueJS");
+    <script>
+
+    </script>
+}

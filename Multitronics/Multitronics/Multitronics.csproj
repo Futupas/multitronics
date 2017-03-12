@@ -183,19 +183,21 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountModels.cs" />
+    <Compile Include="Models\ProductsModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\fonts.css" />
     <Content Include="Content\libs\bootstrap\bootstrap-grid-3.3.1.css" />
-    <Content Include="Content\libs\bootstrap\bootstrap-grid-3.3.1.min.css" />
     <Content Include="Content\libs\countdown\jquery.countdown-ru.js" />
     <Content Include="Content\libs\countdown\jquery.countdown.css" />
+    <Content Include="Content\libs\countdown\jquery.countdown.js" />
     <Content Include="Content\libs\countdown\jquery.countdown.min.js" />
     <Content Include="Content\libs\countdown\jquery.plugin.js" />
     <Content Include="Content\libs\fancybox\blank.gif" />
@@ -267,6 +269,7 @@
     <Content Include="Content\libs\owl-carousel\owl.theme.css" />
     <Content Include="Content\libs\owl-carousel\owl.transitions.css" />
     <Content Include="Content\libs\respond\respond.min.js" />
+    <Content Include="Content\libs\scrollto\jquery.scrollTo.js" />
     <Content Include="Content\libs\scrollto\jquery.scrollTo.min.js" />
     <Content Include="Content\libs\waypoints\waypoints-1.6.2.min.js" />
     <Content Include="Content\libs\waypoints\waypoints-2.0.0.js" />
@@ -328,9 +331,37 @@
     <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
+    <Content Include="fonts\NautilusPompiliusRegular\NautilusPompiliusRegular.eot" />
+    <Content Include="fonts\NautilusPompiliusRegular\NautilusPompiliusRegular.ttf" />
+    <Content Include="fonts\NautilusPompiliusRegular\NautilusPompiliusRegular.woff" />
+    <Content Include="fonts\RobotoBold\RobotoBold.eot" />
+    <Content Include="fonts\RobotoBold\RobotoBold.ttf" />
+    <Content Include="fonts\RobotoBold\RobotoBold.woff" />
+    <Content Include="fonts\RobotoCondensedBold\RobotoCondensedBold.eot" />
+    <Content Include="fonts\RobotoCondensedBold\RobotoCondensedBold.ttf" />
+    <Content Include="fonts\RobotoCondensedBold\RobotoCondensedBold.woff" />
+    <Content Include="fonts\RobotoCondensedLight\RobotoCondensedLight.eot" />
+    <Content Include="fonts\RobotoCondensedLight\RobotoCondensedLight.ttf" />
+    <Content Include="fonts\RobotoCondensedLight\RobotoCondensedLight.woff" />
+    <Content Include="fonts\RobotoCondensedRegular\RobotoCondensedRegular.eot" />
+    <Content Include="fonts\RobotoCondensedRegular\RobotoCondensedRegular.ttf" />
+    <Content Include="fonts\RobotoCondensedRegular\RobotoCondensedRegular.woff" />
+    <Content Include="fonts\RobotoLight\RobotoLight.eot" />
+    <Content Include="fonts\RobotoLight\RobotoLight.ttf" />
+    <Content Include="fonts\RobotoLight\RobotoLight.woff" />
+    <Content Include="fonts\RobotoMedium\RobotoMedium.eot" />
+    <Content Include="fonts\RobotoMedium\RobotoMedium.ttf" />
+    <Content Include="fonts\RobotoMedium\RobotoMedium.woff" />
+    <Content Include="fonts\RobotoRegular\RobotoRegular.eot" />
+    <Content Include="fonts\RobotoRegular\RobotoRegular.ttf" />
+    <Content Include="fonts\RobotoRegular\RobotoRegular.woff" />
+    <None Include="Properties\PublishProfiles\multitronics - FTP %282%29.pubxml" />
     <None Include="Properties\PublishProfiles\multitronics - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\multitronics - Web Deploy %282%29.pubxml" />
     <None Include="Properties\PublishProfiles\multitronics - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.1.1.intellisense.js" />
+    <Content Include="img\contact_map.png" />
+    <Content Include="img\icon_scroll.png" />
     <Content Include="Scripts\common.js" />
     <Content Include="Scripts\jquery-3.1.1.js" />
     <Content Include="Scripts\jquery-3.1.1.min.js" />
@@ -391,8 +422,8 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Web.config" />
-    <Content Include="Views\Home\SomeProduct.cshtml" />
-    <Content Include="Views\Home\Products.cshtml" />
+    <Content Include="Views\Product\Products.cshtml" />
+    <Content Include="Views\Product\SomeProduct.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

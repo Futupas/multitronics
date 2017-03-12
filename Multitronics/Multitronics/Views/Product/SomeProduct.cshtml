@@ -15,10 +15,11 @@
             <li v-for="b in bears">{{b.name}} is {{b.color}}!</li>
         </ul>
     </div>
+    
 </div>
 
 @section scripts{
-    @Scripts.Render("~/bundles/VueJS");
+    @Scripts.Render("~/bundles/VueJS")
     <script>
         var data = {
             bears: [

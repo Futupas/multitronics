@@ -16,24 +16,40 @@ namespace Multitronics
             routes.MapRoute(
                 name: "some_product_gata",
                 url: "Product/{id}/data",
-                defaults: new { controller = "Home", action = "SomeProductData" }
+                defaults: new { controller = "Product", action = "SomeProductData" }
+            );
+            routes.MapRoute(
+                name: "some_product_comments",
+                url: "Product/{id}/comments",
+                defaults: new { controller = "Product", action = "SomeProductComments" }
             );
             routes.MapRoute(
                 name: "some_product",
                 url: "Product/{id}",
-                defaults: new { controller = "Home", action = "SomeProduct" }
+                defaults: new { controller = "Product", action = "SomeProduct" }
+            );
+
+            routes.MapRoute(
+                name: "products_data",
+                url: "Products/data",
+                defaults: new { controller = "Product", action = "ProductsData" }
+            );
+            routes.MapRoute(
+                name: "products",
+                url: "Products",
+                defaults: new { controller = "Product", action = "Products" }
             );
 
             routes.MapRoute(
                 name: "product",
                 url: "Product",
-                defaults: new { controller = "Home", action = "Product" }
+                defaults: new { controller = "Product", action = "Product" }
             );
 
             routes.MapRoute(
                 name: "Default",
-                url: "{action}/{id}",
-                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+                url: "{action}",
+                defaults: new { controller = "Home", action = "Index" }
             );
 
         }
