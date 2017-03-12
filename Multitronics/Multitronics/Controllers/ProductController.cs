@@ -56,7 +56,7 @@ namespace Multitronics.Controllers
         public ActionResult SomeProductData()
         {
             string WebName = ViewBag.id = RouteData.Values["id"].ToString();
-            List<SomeProductDataModel> productdata = new List<SomeProductDataModel>();
+            SomeProductDataModel productdata = new SomeProductDataModel();
 
             return Json(productdata);
         }
