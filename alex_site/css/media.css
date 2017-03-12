@@ -1,0 +1,131 @@
+/*==========  Desktop First Method  ==========*/
+
+/* Large Devices, Wide Screens */
+@media only screen and (max-width : 1200px) {
+
+}
+
+/* Medium Devices, Desktops */
+@media only screen and (max-width : 992px) {
+.main_menu ul{
+        top:175px;
+        display: none;
+        position: absolute;
+        background-color: #3797bf;
+        width: 100%;
+    }
+.main_menu ul li{
+    display: block;
+}
+.sell_right,
+.sell_button{
+        margin:15px auto;
+        float: none;
+        max-width: 250px;
+}
+.sell_left{
+        text-align: center;
+}
+.catalog_cars{
+    display: none;
+}
+    .main_text{
+        margin-bottom: -100px;
+    }
+   
+}
+
+/* Small Devices, Tablets */
+@media only screen and (max-width : 768px) {
+.top_links{
+        display: none;
+        vertical-align: middle;
+        background-color: #585d61;
+        position: absolute;
+        width: 100%;
+        margin-top: 15px;
+        padding: 14px;
+}
+.top_contacts{
+        display: none;
+}
+
+}
+
+/* Extra Small Devices, Phones */
+@media only screen and (max-width : 480px) {
+    
+}
+
+/* Custom, iPhone Retina */
+@media only screen and (max-width : 320px) {
+
+}
+
+
+/*==========  Mobile First Method  ==========*/
+
+/* Custom, iPhone Retina */
+@media only screen and (min-width : 320px) {
+
+}
+
+/* Extra Small Devices, Phones */
+@media only screen and (min-width : 480px) {
+   
+}
+
+/* Small Devices, Tablets */
+@media only screen and (min-width : 768px) {
+         .top_links{
+        display: inline-block!important;
+    }
+    
+}
+
+/* Medium Devices, Desktops */
+@media only screen and (min-width : 992px) {
+    .main_menu ul {
+        display: block !important;
+    }
+}
+
+ /* Large Devices, Wide Screens */
+@media only screen and (min-width : 1200px) {
+
+}
+
+@media all and (max-width: 1020px) {
+  .skew.l {
+    left: 5%;
+    transform: skew(00deg,25deg);
+  }
+
+  .skew.r {
+    right: 5%;
+    transform: skew(00deg,-25deg);
+  }
+}
+
+@media all and (max-width: 680px) {
+  .skew.l {
+    left: 5%;
+    transform: skew(00deg,30deg);
+  }
+
+  .skew.r {
+    right: 5%;
+    transform: skew(00deg,-30deg);
+  }
+}
+
+@media all and (max-width: 460px) {
+  .skew.l {
+    left: 5%;
+    transform: skew(00deg,40deg);
+  }
+  .skew.r {
+    right: 5%;
+    transform: skew(00deg,-40deg);
+  }
+}
