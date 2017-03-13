@@ -35,6 +35,11 @@ namespace Multitronics
                 defaults: new { controller = "Product", action = "ProductsData" }
             );
             routes.MapRoute(
+                name: "get_categories",
+                url: "GetCategories",
+                defaults: new { controller = "Product", action = "GetCategories" }
+            );
+            routes.MapRoute(
                 name: "products",
                 url: "Products",
                 defaults: new { controller = "Product", action = "Products" }

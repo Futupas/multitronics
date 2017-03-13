@@ -78,7 +78,7 @@ namespace Multitronics.Controllers
         {
             return View();
         }
-        //
+        // Список категорий
         public ActionResult GetCategories()
         {
             List<CategoryModel> categories = new List<CategoryModel>();
