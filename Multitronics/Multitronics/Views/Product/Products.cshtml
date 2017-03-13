@@ -2,6 +2,17 @@
     ViewBag.Title = "Товары";
 }
 
+<div class="col-md-12">
+    <button onclick="alert('1');">
+        Категория 1
+    </button>
+    <button onclick="alert('2');">
+        Категория 2
+    </button>
+    <button onclick="alert('3');">
+        Категория 3
+    </button>
+</div>
 <div class="col-md-4">
     <div id="product-list">
 
@@ -12,7 +23,7 @@
             </div>
             <p class="desc">Описание</p>
             <p class="price">Цена</p>
-            <p class="button"><a class="green" href="/">Ссылка на него</a></p>
+            <p class="button"><a class="green" href="/Product/product-1">Посмотреть товар</a></p>
         </div>
     </div>
 </div>
@@ -26,10 +37,11 @@
             </div>
             <p class="desc">Описание</p>
             <p class="price">Цена</p>
-            <p class="button"><a class="green" href="/">Ссылка на него</a></p>
+            <p class="button"><a class="green" href="/Product/product-2">Посмотреть товар</a></p>
         </div>
     </div>
-</div><div class="col-md-4">
+</div>
+<div class="col-md-4">
     <div id="product-list">
 
         <div class="product-item">
@@ -39,15 +51,25 @@
             </div>
             <p class="desc">Описание</p>
             <p class="price">Цена</p>
-            <p class="button"><a class="green" href="/">Ссылка на него</a></p>
+            <p class="button"><a class="green" href="/Product/product-3">Посмотреть товар</a></p>
         </div>
     </div>
 </div>
 
 @section scripts{
-    @Scripts.Render("~/bundles/VueJS");
+    @Scripts.Render("~/bundles/VueJS")
     <script>
-        var TestData = [{
+        var TestCategories = [{
+            Id: 1,
+            Name: 'Категория 1'
+        }, {
+            Id: 2,
+            Name: 'Категория 2'
+        }, {
+            Id: 3,
+            Name: 'Категория 3'
+        }];
+        var TestProducts = [{
             Name: 'Товар 1',
             Description: 'Очень полезная вещь со скидкой 20%',
             Price: 13,

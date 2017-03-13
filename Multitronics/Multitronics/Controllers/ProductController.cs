@@ -78,6 +78,13 @@ namespace Multitronics.Controllers
         {
             return View();
         }
+        //
+        public ActionResult Categories()
+        {
+            List<CategoryModel> categories = new List<CategoryModel>();
+
+            return Json(categories);
+        }
         // Все продукты конкретной категории
         public ActionResult ProductsData(string Category)
         {

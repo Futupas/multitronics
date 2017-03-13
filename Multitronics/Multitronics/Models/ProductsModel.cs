@@ -27,4 +27,9 @@ namespace Multitronics.Models
         public string Href = "";
         public string PhotoSrc = "";
     }
+    public class CategoryModel
+    {
+        public int Id = 0;
+        public string Name = "";
+    }
 }
