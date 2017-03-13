@@ -79,7 +79,7 @@ namespace Multitronics.Controllers
             return View();
         }
         //
-        public ActionResult Categories()
+        public ActionResult GetCategories()
         {
             List<CategoryModel> categories = new List<CategoryModel>();
 
