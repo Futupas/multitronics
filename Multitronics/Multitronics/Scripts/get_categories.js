@@ -13,3 +13,29 @@
  * Далее получает JSON всех товаров, и отображаете их.
  **/
 
+'use strict';
+
+var testJSON = {
+	cat1: "cat1",
+	cat2: "cat2"
+};
+
+testJSON = JSON.stringify(testJSON);
+
+function getCategories(event) {
+	event.preventDefault();
+	var str = ($( testJSON ).serialize());
+	$.ajax({
+		url: '/GetCategories',
+		type: 'GET',
+		dataType: 'json',
+		success: renderNavBtns,
+		data: str
+	});
+}
+
+function renderNavBtns() {
+	console.log('render');
+}
+
+console.log(testJSON);
