@@ -163,7 +163,7 @@ ViewBag.Title = "Товары";
 			 * @return DOM
 			 * *@
 			getCat: function () {
-				this.$http.get('/GetCategories')
+				this.$http.get('@Url.Action("GetCategories", "Product")')
 					.then((response) => {
 						this.categories = response.body;
 					})
@@ -174,7 +174,7 @@ ViewBag.Title = "Товары";
 			 * @return DOM
 			 * *@
 			catBtnOnClick: function (event) {
-				this.$http.get('/ProductsData?Category=' + event.target.name)
+			    this.$http.get('@Url.Action("ProductsData", "Product")'+'?Category=' + event.target.name)
 					.then((response) => {
 						this.products = response.body;
 						;

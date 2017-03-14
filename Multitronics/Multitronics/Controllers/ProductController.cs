@@ -83,7 +83,13 @@ namespace Multitronics.Controllers
         {
             List<CategoryModel> categories = new List<CategoryModel>();
 
-            return Json(categories);
+            // -- Test code for debugging
+            categories.Add(new CategoryModel { Id = 4, Name = "Первая категория" });
+            categories.Add(new CategoryModel { Id = 5, Name = "Вторая категория" });
+            categories.Add(new CategoryModel { Id = 7, Name = "Третья категория" });
+            // /-- Test code for debugging
+
+            return Json(categories, JsonRequestBehavior.AllowGet);
         }
         // Все продукты конкретной категории
         public ActionResult ProductsData(string Category)
@@ -91,7 +97,30 @@ namespace Multitronics.Controllers
             List<ProductDataModel> products = new List<ProductDataModel>();
             int CategoryID = Int32.Parse(Category);
 
-            return Json(products);
+            // -- Test code for debugging
+            switch (CategoryID)
+            {
+                case 4:
+                    products.Add(new ProductDataModel { Name="(4) Хлеб", Description="Очень вкусный хлеб", Href="product-1", Price=12, PhotoSrc="" });
+                    products.Add(new ProductDataModel { Name = "(4) Сало", Description = "Вкуснейшее сало", Href = "product-2", Price = 13, PhotoSrc = "" });
+                    products.Add(new ProductDataModel { Name = "(4) Водка", Description = "Пьянящая водка", Href = "product-3", Price = 14, PhotoSrc = "" });
+                    break;
+                case 5:
+                    products.Add(new ProductDataModel { Name = "(5) Хлеб", Description = "Очень вкусный хлеб", Href = "product-1", Price = 12, PhotoSrc = "" });
+                    products.Add(new ProductDataModel { Name = "(5) Сало", Description = "Вкуснейшее сало", Href = "product-2", Price = 13, PhotoSrc = "" });
+                    products.Add(new ProductDataModel { Name = "(5) Водка", Description = "Пьянящая водка", Href = "product-3", Price = 14, PhotoSrc = "" });
+                    break;
+                case 7:
+                    products.Add(new ProductDataModel { Name = "(7) Хлеб", Description = "Очень вкусный хлеб", Href = "product-1", Price = 12, PhotoSrc = "" });
+                    products.Add(new ProductDataModel { Name = "(7) Сало", Description = "Вкуснейшее сало", Href = "product-2", Price = 13, PhotoSrc = "" });
+                    products.Add(new ProductDataModel { Name = "(7) Водка", Description = "Пьянящая водка", Href = "product-3", Price = 14, PhotoSrc = "" });
+                    break;
+                default:
+                    break;
+            }
+            // /-- Test code for debugging
+
+            return Json(products, JsonRequestBehavior.AllowGet);
         }
     }
 }
