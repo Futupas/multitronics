@@ -1,8 +1,30 @@
 ﻿@{
-    ViewBag.Title = "Товары";
+ViewBag.Title = "Товары";
 }
 
-<div class="col-md-12">
+<div id="products">
+    <div class="col-md-12">
+        <button v-for="cat in categories" @click="catBtnOnClick" :name="cat.Id">
+            {{ cat.Name }}
+        </button>
+    </div>
+    <div class="col-md-4">
+        <div v-for="prod in products" class="product-item">
+            {{ prod.Name }}
+            <p class="name">{{ prod.name }}</p>
+            <div class="photo">
+                <img :src="prod.PhotoSrc" alt="">
+            </div>
+            <p class="desc">{{ prod.Description }}</p>
+            <p class="price">{{ prod.Price }}</p>
+            <p class="button"><a class="green" :href="prod.Href">Посмотреть товар</a></p>
+        </div>
+    </div>
+</div>
+
+<!-- Первоначальный шаблон: -->
+<!--
+<div id="product-categories" class="col-md-12">
     <button onclick="alert('1');">
         Категория 1
     </button>
@@ -54,39 +76,114 @@
             <p class="button"><a class="green" href="/Product/product-3">Посмотреть товар</a></p>
         </div>
     </div>
-</div>
+</div>-->
 
 @section scripts{
-    @Scripts.Render("~/bundles/VueJS")
-    <script>
-        var TestCategories = [{
-            Id: 1,
-            Name: 'Категория 1'
-        }, {
-            Id: 2,
-            Name: 'Категория 2'
-        }, {
-            Id: 3,
-            Name: 'Категория 3'
-        }];
-        var TestProducts = [{
-            Name: 'Товар 1',
-            Description: 'Очень полезная вещь со скидкой 20%',
-            Price: 13,
-            Href: 'product-1',
-            PhotoSrc: 'https://static.pexels.com/photos/7045/pexels-photo.jpeg'
-        }, {
-            Name: 'Товар 2',
-            Description: 'Не очень полезная вещь без скидки',
-            Price: 155,
-            Href: 'product-2',
-            PhotoSrc: 'http://static.tumblr.com/ad1274ac4b41aeeeb15b2f9e4662e9b8/pmnupqm/VFIncxfqw/tumblr_static_2tnd1h3q3wg0kwk4g4ko40c0o.jpg'
-        }, {
-            Name: 'Товар 3',
-            Description: 'Обычная лампа настольная, для чтения',
-            Price: 0.2,
-            Href: 'product-3',
-            PhotoSrc: 'https://pixlr.com/assets/landing/gallery/5-68c0f48120fefc5eb0cff67573d649da.jpg'
-        }];
-    </script>
+@Scripts.Render("~/bundles/VueJS")
+<script>
+	/**
+	 * Скрипт отправляет GET запрос по адресу "/GetCategories",
+	 * получает JSON списка категорий,
+	 * отображает их в виде кнопок.
+	 *
+	 * По нажатию на любую из кнопок отправляет GET по адресу "/ProductsData?Category=XXX",
+	 * где XXX - ID нужной категории (XXX = name кнопки),
+	 * полученный ответ выводит на экран.
+	 *
+	 * @requires vue@2.2.4.js
+	 * @requires vue-resource.min.js
+	 *
+	 * Тестировал на:
+	 *...
+	 *<div id="nav">
+	 *  <button v-for="(cat, index) in categories" :name="index" @click="catBtnOnClick">
+	 *     {{ cat }}
+	 *</button>
+	 *</div>
+	 * ...
+	 * */
+
+	'use strict';
+
+	let TestCategories = [
+		{
+			Id: "1",
+			Name: "Категория 1"
+		},
+		{
+			Id: "2",
+			Name: "Категория 2"
+		},
+		{
+			Id: "3",
+			Name: "Категория 3"
+		}];
+
+	let TestProducts = [
+		{
+			Name: 'Товар 1',
+			Description: 'Очень полезная вещь со скидкой 20%',
+			Price: 13,
+			Href: 'product-1',
+			PhotoSrc: 'https://static.pexels.com/photos/7045/pexels-photo.jpeg'
+		},
+		{
+			Name: 'Товар 2',
+			Description: 'Не очень полезная вещь без скидки',
+			Price: 155,
+			Href: 'product-2',
+			PhotoSrc: 'http://static.tumblr.com/ad1274ac4b41aeeeb15b2f9e4662e9b8/pmnupqm/VFIncxfqw/tumblr_static_2tnd1h3q3wg0kwk4g4ko40c0o.jpg'
+		},
+		{
+			Name: 'Товар 3',
+			Description: 'Обычная лампа настольная, для чтения',
+			Price: 0.2,
+			Href: 'product-3',
+			PhotoSrc: 'https://pixlr.com/assets/landing/gallery/5-68c0f48120fefc5eb0cff67573d649da.jpg'
+		}];
+
+	let nav = new Vue({
+		el: '#products',
+		data: {
+			defCat: TestCategories, // категории по умолчанию
+			defProd: TestProducts, // товары категории по умолчанию
+			categories: this.defCat,
+			products: this.defProd
+		},
+		methods: {
+            /* Выполняется, если результат запроса - ошибка */
+			getCatError: function () {
+				this.categories = this.defCat;
+			},
+			getProdError: function () {
+				this.products = this.defProd;
+			},
+			/**
+			 * @description Запрос методом GET, результат присваивается this.categories
+			 * @return DOM
+			 * */
+			getCat: function () {
+				this.$http.get('/GetCategories')
+					.then((response) => {
+						this.categories = response.body;
+					})
+					.catch(this.getCatError);
+			},
+			/**
+			 * @description Обработчик нажатия на кнопку "Категория"
+			 * @return DOM
+			 * */
+			catBtnOnClick: function (event) {
+				this.$http.get('/ProductsData?Category=' + event.target.name)
+					.then((response) => {
+						this.products = response.body;
+						;
+					}).bind(this)
+					.catch(this.getProdError).bind(this);
+				;
+			}
+		}
+	});
+	nav.getCat();
+</script>
 }
