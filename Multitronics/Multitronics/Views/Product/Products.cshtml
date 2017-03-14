@@ -4,7 +4,7 @@ ViewBag.Title = "Товары";
 
 <div id="products">
     <div class="col-md-12">
-        <button v-for="cat in categories" @click="catBtnOnClick" :name="cat.Id">
+        <button v-for="cat in categories" v-on:click="catBtnOnClick" :name="cat.Id">
             {{ cat.Name }}
         </button>
     </div>
@@ -13,17 +13,17 @@ ViewBag.Title = "Товары";
             {{ prod.Name }}
             <p class="name">{{ prod.name }}</p>
             <div class="photo">
-                <img :src="prod.PhotoSrc" alt="">
+                <img :src="prod.PhotoSrc" alt="" style="height: 100px;">
             </div>
             <p class="desc">{{ prod.Description }}</p>
             <p class="price">{{ prod.Price }}</p>
-            <p class="button"><a class="green" :href="prod.Href">Посмотреть товар</a></p>
+            <p class="button"><a class="green" :href="('/Product/'+prod.Href)">Посмотреть товар</a></p>
         </div>
     </div>
 </div>
 
-<!-- Первоначальный шаблон: -->
-<!--
+@* Первоначальный шаблон: *@
+@*
 <div id="product-categories" class="col-md-12">
     <button onclick="alert('1');">
         Категория 1
@@ -76,12 +76,12 @@ ViewBag.Title = "Товары";
             <p class="button"><a class="green" href="/Product/product-3">Посмотреть товар</a></p>
         </div>
     </div>
-</div>-->
+</div>*@
 
 @section scripts{
 @Scripts.Render("~/bundles/VueJS")
 <script>
-	/**
+	@**
 	 * Скрипт отправляет GET запрос по адресу "/GetCategories",
 	 * получает JSON списка категорий,
 	 * отображает их в виде кнопок.
@@ -101,7 +101,7 @@ ViewBag.Title = "Товары";
 	 *</button>
 	 *</div>
 	 * ...
-	 * */
+	 * *@
 
 	'use strict';
 
@@ -151,17 +151,17 @@ ViewBag.Title = "Товары";
 			products: this.defProd
 		},
 		methods: {
-            /* Выполняется, если результат запроса - ошибка */
+            @* Выполняется, если результат запроса - ошибка *@
 			getCatError: function () {
 				this.categories = this.defCat;
 			},
 			getProdError: function () {
 				this.products = this.defProd;
 			},
-			/**
+			@**
 			 * @description Запрос методом GET, результат присваивается this.categories
 			 * @return DOM
-			 * */
+			 * *@
 			getCat: function () {
 				this.$http.get('/GetCategories')
 					.then((response) => {
@@ -169,10 +169,10 @@ ViewBag.Title = "Товары";
 					})
 					.catch(this.getCatError);
 			},
-			/**
+			@**
 			 * @description Обработчик нажатия на кнопку "Категория"
 			 * @return DOM
-			 * */
+			 * *@
 			catBtnOnClick: function (event) {
 				this.$http.get('/ProductsData?Category=' + event.target.name)
 					.then((response) => {
