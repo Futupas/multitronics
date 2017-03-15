@@ -61,7 +61,8 @@ namespace Multitronics
                 "~/Content/libs/landing-nav/navigation.js",
                 "~/Scripts/common.js"));
             bundles.Add(new ScriptBundle("~/bundles/VueJS").Include(
-                "~/Scripts/vue.js"));
+                "~/Scripts/vue.js",
+                "~/Scripts/vue-resource.js"));
         }
     }
 }
