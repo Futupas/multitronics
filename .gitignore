@@ -107,7 +107,7 @@ csx
 AppPackages/
 
 # Others
-sql/
+# sql/
 *.Cache
 ClientBin/
 [Ss]tyle[Cc]op.*
@@ -116,7 +116,7 @@ ClientBin/
 *.dbmdl
 *.[Pp]ublish.xml
 *.pfx
-*.publishsettings
+# *.publishsettings
 
 # RIA/Silverlight projects
 Generated_Code/
