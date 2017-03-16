@@ -2,7 +2,7 @@
 ViewBag.Title = "Товары";
 }
 
-<div id="products">
+@*<div id="products">
     <div class="col-md-12">
         <button v-for="cat in categories" v-on:click="catBtnOnClick" :name="cat.Id">
             {{ cat.Name }}
@@ -20,89 +20,38 @@ ViewBag.Title = "Товары";
             <p class="button"><a class="green" :href="('/Product/'+prod.Href)">Посмотреть товар</a></p>
         </div>
     </div>
-</div>
-
-@* Первоначальный шаблон: *@
-@*
-<div id="product-categories" class="col-md-12">
-    <button onclick="alert('1');">
-        Категория 1
-    </button>
-    <button onclick="alert('2');">
-        Категория 2
-    </button>
-    <button onclick="alert('3');">
-        Категория 3
-    </button>
-</div>
-<div class="col-md-4">
-    <div id="product-list">
-
-        <div class="product-item">
-            <p class="name">Имя</p>
-            <div class="photo">
-                <img src="img/photo.jpg" alt="">
-            </div>
-            <p class="desc">Описание</p>
-            <p class="price">Цена</p>
-            <p class="button"><a class="green" href="/Product/product-1">Посмотреть товар</a></p>
-        </div>
-    </div>
-</div>
-<div class="col-md-4">
-    <div id="product-list">
-
-        <div class="product-item">
-            <p class="name">Имя</p>
-            <div class="photo">
-                <img src="img/photo.jpg" alt="">
-            </div>
-            <p class="desc">Описание</p>
-            <p class="price">Цена</p>
-            <p class="button"><a class="green" href="/Product/product-2">Посмотреть товар</a></p>
-        </div>
-    </div>
-</div>
-<div class="col-md-4">
-    <div id="product-list">
-
-        <div class="product-item">
-            <p class="name">Имя</p>
-            <div class="photo">
-                <img src="img/photo.jpg" alt="">
-            </div>
-            <p class="desc">Описание</p>
-            <p class="price">Цена</p>
-            <p class="button"><a class="green" href="/Product/product-3">Посмотреть товар</a></p>
-        </div>
-    </div>
 </div>*@
+<div class="row" id="products">
+    <div class="col-md-3">
+        <div class="stuff_cat">
+            <div class="text_for_catalogs">
+                some text
+            </div>
+            <div v-for="cat in categories" class="row for_stuff" v-on:click="catBtnOnClick" v-bind:name="cat.Id">
+                <div class="stuff_name" v-on:click="catBtnOnClick" v-bind:name="cat.Id">{{ cat.Name }}</div>
+                <div class="stuff_icon" v-on:click="catBtnOnClick" v-bind:name="cat.Id"><i class="fa fa-chevron-circle-right" aria-hidden="true"></i></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-9">
+        <div v-for="prod in products" class="product-item col-md-4" style="padding: 10px; border: 2px solid black; border-radius: 10px;">
+            <center><h2>{{ prod.Name }}</h2></center>
+            <div class="photo">
+                <img v-bind:src="prod.PhotoSrc" alt="" style="height: 100px;">
+            </div>
+            <p class="desc">{{ prod.Description }}</p>
+            <p class="price">Цена: {{ prod.Price }}грн</p>
+            <p class="button">
+                <center><a class="green" v-bind:href="('/Product/'+prod.Href)">Посмотреть товар</a></center>
+            </p>
+        </div>
+    </div>
+</div>
+
 
 @section scripts{
 @Scripts.Render("~/bundles/VueJS")
 <script>
-	@**
-	 * Скрипт отправляет GET запрос по адресу "/GetCategories",
-	 * получает JSON списка категорий,
-	 * отображает их в виде кнопок.
-	 *
-	 * По нажатию на любую из кнопок отправляет GET по адресу "/ProductsData?Category=XXX",
-	 * где XXX - ID нужной категории (XXX = name кнопки),
-	 * полученный ответ выводит на экран.
-	 *
-	 * @requires vue@2.2.4.js
-	 * @requires vue-resource.min.js
-	 *
-	 * Тестировал на:
-	 *...
-	 *<div id="nav">
-	 *  <button v-for="(cat, index) in categories" :name="index" @click="catBtnOnClick">
-	 *     {{ cat }}
-	 *</button>
-	 *</div>
-	 * ...
-	 * *@
-
 	'use strict';
 
 	let TestCategories = [
@@ -173,8 +122,9 @@ ViewBag.Title = "Товары";
 			 * @description Обработчик нажатия на кнопку "Категория"
 			 * @return DOM
 			 * *@
-			catBtnOnClick: function (event) {
-			    this.$http.get('@Url.Action("ProductsData", "Product")'+'?Category=' + event.target.name)
+    catBtnOnClick: function (event) {
+        console.dir(event.target);
+			    this.$http.get('@Url.Action("ProductsData", "Product")'+'?Category=' + event.target.getAttribute('Name'))
 					.then((response) => {
 						this.products = response.body;
 						;

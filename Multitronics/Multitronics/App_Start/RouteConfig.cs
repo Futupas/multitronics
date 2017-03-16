@@ -36,7 +36,7 @@ namespace Multitronics
             );
             routes.MapRoute(
                 name: "get_categories",
-                url: "GetCategories",
+                url: "Products/categories",
                 defaults: new { controller = "Product", action = "GetCategories" }
             );
             routes.MapRoute(
