@@ -112,11 +112,21 @@ namespace Multitronics.Controllers
         {
             List<CategoryModel> categories = new List<CategoryModel>();
 
-            // -- Test code for debugging
-            categories.Add(new CategoryModel { Id = 4, Name = "Первая категория" });
-            categories.Add(new CategoryModel { Id = 5, Name = "Вторая категория" });
-            categories.Add(new CategoryModel { Id = 7, Name = "Третья категория" });
-            // /-- Test code for debugging
+            SqlConnection conn = new SqlConnection();
+            conn.ConnectionString = @"Server=mssql3.gear.host;Database=multitronics;User Id=multitronics;Password=Jl8bl98_?E2o;";
+            SqlCommand command = new SqlCommand("SELECT * FROM [dbo].[Category];", conn);
+            conn.Open();
+            SqlDataReader reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                categories.Add(new CategoryModel {
+                    Id = (int)reader["Id"],
+                    Name = (string)reader["Name"]
+                });
+            }
+
+            conn.Close();
+            conn.Dispose();
 
             return Json(categories, JsonRequestBehavior.AllowGet);
         }
@@ -126,28 +136,25 @@ namespace Multitronics.Controllers
             List<ProductDataModel> products = new List<ProductDataModel>();
             int CategoryID = Int32.Parse(Category);
 
-            // -- Test code for debugging
-            switch (CategoryID)
+            SqlConnection conn = new SqlConnection();
+            conn.ConnectionString = @"Server=mssql3.gear.host;Database=multitronics;User Id=multitronics;Password=Jl8bl98_?E2o;";
+            SqlCommand command = new SqlCommand(String.Format("SELECT * FROM [dbo].[Product] WHERE [CategoryID]={0};", CategoryID), conn);
+            conn.Open();
+            SqlDataReader reader = command.ExecuteReader();
+            while (reader.Read())
             {
-                case 4:
-                    products.Add(new ProductDataModel { Name="(4) Хлеб", Description="Очень вкусный хлеб", Href="product-1", Price=12, PhotoSrc="" });
-                    products.Add(new ProductDataModel { Name = "(4) Сало", Description = "Вкуснейшее сало", Href = "product-2", Price = 13, PhotoSrc = "" });
-                    products.Add(new ProductDataModel { Name = "(4) Водка", Description = "Пьянящая водка", Href = "product-3", Price = 14, PhotoSrc = "" });
-                    break;
-                case 5:
-                    products.Add(new ProductDataModel { Name = "(5) Хлеб", Description = "Очень вкусный хлеб", Href = "product-1", Price = 12, PhotoSrc = "" });
-                    products.Add(new ProductDataModel { Name = "(5) Сало", Description = "Вкуснейшее сало", Href = "product-2", Price = 13, PhotoSrc = "" });
-                    products.Add(new ProductDataModel { Name = "(5) Водка", Description = "Пьянящая водка", Href = "product-3", Price = 14, PhotoSrc = "" });
-                    break;
-                case 7:
-                    products.Add(new ProductDataModel { Name = "(7) Хлеб", Description = "Очень вкусный хлеб", Href = "product-1", Price = 12, PhotoSrc = "" });
-                    products.Add(new ProductDataModel { Name = "(7) Сало", Description = "Вкуснейшее сало", Href = "product-2", Price = 13, PhotoSrc = "" });
-                    products.Add(new ProductDataModel { Name = "(7) Водка", Description = "Пьянящая водка", Href = "product-3", Price = 14, PhotoSrc = "" });
-                    break;
-                default:
-                    break;
+                products.Add(new ProductDataModel
+                {
+                    Name = (string)reader["Name"],
+                    Description = (string)reader["Description"],
+                    Href = (string)reader["WebName"],
+                    PhotoSrc = (string)reader["Photo"],
+                    Price = (int)reader["Price"],
+               });
             }
-            // /-- Test code for debugging
+
+            conn.Close();
+            conn.Dispose();
 
             return Json(products, JsonRequestBehavior.AllowGet);
         }
