@@ -52,6 +52,12 @@ namespace Multitronics
             );
 
             routes.MapRoute(
+                name: "authors",
+                url: "Authors",
+                defaults: new { controller = "Author", action = "Index" }
+            );
+
+            routes.MapRoute(
                 name: "Default",
                 url: "{action}",
                 defaults: new { controller = "Home", action = "Index" }

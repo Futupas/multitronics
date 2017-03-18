@@ -25,7 +25,7 @@ ViewBag.Title = "Товары";
     <div class="col-md-3">
         <div class="stuff_cat">
             <div class="text_for_catalogs">
-                some text
+                Категории
             </div>
             <div v-for="cat in categories" class="row for_stuff" v-on:click="catBtnOnClick" v-bind:name="cat.Id">
                 <div class="stuff_name" v-on:click="catBtnOnClick" v-bind:name="cat.Id">{{ cat.Name }}</div>

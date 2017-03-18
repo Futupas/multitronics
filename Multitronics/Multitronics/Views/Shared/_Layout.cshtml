@@ -75,17 +75,17 @@
                         <button class="main_menu_button hidden-md hidden-lg"><i class="fa fa-bars" aria-hidden="true"></i></button>
                         <ul>
                             <li>@Html.ActionLink("Товары", "Products", "Product")</li>
-                            <li><a href="#">Услуги</a></li>
-                            <li><a href="#">Наши работы</a></li>
-                            <li><a href="#">Отзывы</a></li>
-                            <li><a href="#">Как купить</a></li>
-                            <li><a href="#">Контакты</a></li>
+                            <li>@Html.ActionLink("Услуги", "Services", "Home")</li>
+                            <li>@Html.ActionLink("Наши работы", "OurWorks", "Home")</li>
+                            <li>@Html.ActionLink("Отзывы", "Reviews", "Home")</li>
+                            <li>@Html.ActionLink("Как купить", "HowToBuy", "Home")</li>
+                            <li>@Html.ActionLink("Контакты", "Contacts", "Home")</li>
                         </ul>
                         <div class="search">
 
                             <form class="form-wrapper cf">
-                                <input type="text" placeholder="Search here..." required>
-                                <button type="submit">Search</button>
+                                <input type="text" placeholder="Поиск тута. Но он не работает" required>
+                                <button type="submit">Кнопка поиска</button>
                             </form>
 
                         </div>

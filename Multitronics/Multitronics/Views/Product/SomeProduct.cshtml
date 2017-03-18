@@ -39,11 +39,14 @@
             <button v-on:click='sendComment'>Отправить</button>
         </div>*@
 
-        <div>{{ name }}</div>
-        <div>{{ description }}</div>
-        <div>{{ price }}</div>
-        <div>{{ count }}</div>
-        <img v-bind:src="" />
+        <h2>{{ name }}</h2>
+        <h3>Описание: {{ description }}</h3>
+        <h4>Цена: {{ price }}грн.</h4>
+        <h4 v-if="count <= 0" style="background-color: #ffb3b3;">Количество: {{ count }}шт</h4>
+        <h4 v-if="count > 0 && count <= 5" style="background-color: #ffff99;">Количество: {{ count }}шт</h4>
+        <h4 v-if="count > 5" style="background-color: #b3ffcc;">Количество: {{ count }}шт</h4>
+
+        <img v-bind:src="photoSrc" style="height: 300px;" />
         <table style="border: 1px solid black; border-collapse: collapse;">
             <tr v-for="r in specif">
                 <td v-for="v in r" style="border: 1px solid black; padding: 5px;">{{ v }}</td>
