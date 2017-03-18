@@ -6,12 +6,49 @@
 
 </div>
 <div>
-    <h3>VueJS test</h3>
-    <div id="app">
-        {{ info }}
-        <ul>
-            <li v-for="b in bears">{{b.name}} is {{b.color}}!</li>
-        </ul>
+    <div id="product">
+        @*<h3>Product description</h3>
+    <img v-bind:src="photoSrc" alt="" style="height: 400px;">
+    <img v-bind:src="photoSrc" v-model="photoSrc" alt="" style="height: 400px;">
+        <table>
+            <tr>
+                <th>Наименование</th>
+                <th>Описание</th>
+                <th>Стоимость</th>
+                <th>Количество</th>
+                <th>Спецификация</th>
+            </tr>
+            <tr>
+                <td v-for="option in product">{{ option }}</td>
+            </tr>
+        </table>
+        <h3>Comments</h3>
+        <div>
+            <ul v-for="comment in comments">
+                <li>{{ comment.authorName }}</li>
+                <li>{{ comment.text }}</li>
+            </ul>
+            <label for="name">Имя</label>
+            <br>
+            <input name='name' type="text" v-model="name">
+            <br>
+            <label for="comment">Коментарий</label>
+            <br>
+            <textarea name="message" v-model="message"></textarea>
+            <br>
+            <button v-on:click='sendComment'>Отправить</button>
+        </div>*@
+
+        <div>{{ name }}</div>
+        <div>{{ description }}</div>
+        <div>{{ price }}</div>
+        <div>{{ count }}</div>
+        <img v-bind:src="" />
+        <table style="border: 1px solid black; border-collapse: collapse;">
+            <tr v-for="r in specif">
+                <td v-for="v in r" style="border: 1px solid black; padding: 5px;">{{ v }}</td>
+            </tr>
+        </table>
     </div>
     
 </div>
@@ -19,47 +56,124 @@
 @section scripts{
     @Scripts.Render("~/bundles/VueJS")
     <script>
-        var TestData = {
-            Name: 'Товар 1',
-            Description: 'Очень важный товар',
-            Price: 800,
-            Count: 10,
-            PhotoSrc: 'https://www.aviary.com/img/photo-landscape.jpg',
-            Specifications: 'Ширина=5мм;Высота=10мм;Радиус=100мм;WiFi=есть;Количество USB портов=5-6'
-        };
-        var TestComments = [{
-            AuthorName: 'Саша',
-            Text: 'Очень классный товар. Всем рекомендую))))0))00)'
-        }, {
-            AuthorName: 'Дима',
-            Text: 'Ужас. Просто ужасная вещь. Сломалась от падения на пол'
-        }, {
-            AuthorName: 'Света1999',
-            Text: 'Хз, вродь все норм'
-        }];
+        var product = new Vue({
+            el: '#product',
+            data: {
+                name: '',
+                description: '',
+                price: 0,
+                count: 0,
+                photoSrc: '',
+                specif: ''
+            },
+            methods: {
+                getParams: function () {
+                    this.$http.get(window.location.pathname + '/data').then(function (response_pr) {
+                        var response = response_pr.body;
 
-        var data = {
-            bears: [
-                { name: 'Misha', color: 'White' },
-                { name: 'Dima', color: 'Black' },
-                { name: 'Borya', color: 'Brown' },
-                { name: 'Vasya', color: 'Yellow' }
-            ],
-            info: 'Hello!'
-        }
-        var TestVue = new Vue({
-            el: '#app',
-            data: data
-        });
+                        this.name = response.Name;
+                        this.description = response['Description'];
+                        this.price = response['Price'];
+                        this.count = response['Count'];
+                        this.photoSrc = response['PhotoSrc'];
 
-        var xhr = new XMLHttpRequest();
-        xhr.open('GET', (window.location.pathname + '/data'), true);
-        xhr.send();
-        xhr.onreadystatechange = function () {
-            if (xhr.status == 200 && xhr.readyState == 4) {
-                //xhr.responseText;
-                document.getElementById('maindiv').innerHTML = xhr.responseText;
+                        var sp = [];
+                        var specifs = response['Specifications'].split(';');
+                        for (var i = 0; i < specifs.length; i++) {
+                            sp.push(specifs[i].split('='));
+                        };
+                        this.specif = sp;
+                    }, function (error) {
+                        alert('AJAX error!');
+                    })
+                },
+                getComments: function () {
+                    //Get comments
+                },
+                sendComment: function () {
+                    // Send comment
+                }
+            },
+            created: function () {
+                this.getParams();
+                this.getComments();
             }
-        }
+        });
     </script>
+
+    @*<script>
+        'use strict';
+
+        let data = {
+            product: {
+                name: 'Товар 1', description: 'Очень важный товар', price: 800,
+                count: 10, specifications: 'Ширина=5мм'
+            },
+            photoSrc: 'https://www.aviary.com/img/photo-landscape.jpg',
+            comments: [{
+                authorName: 'Саша',
+                text: 'Очень классный товар. Всем рекомендую))))0))00)'
+            },
+                       {
+                           authorName: 'Дима',
+                           text: 'Ужас. Просто ужасная вещь. Сломалась от падения на пол'
+                       },
+                       {
+                           authorName: 'Света1999',
+                           text: 'Хз, вродь все норм'
+                       }]
+        };
+
+        new Vue({
+            el: '#product',
+            data: {
+                commentsSrc: './comments',
+                productSrc: './data',
+                sendCommentSrc: '',
+                product: '',
+                photoSrc: '',
+                comments: ''
+            },
+            methods: {
+                getParams: function () {
+                    this.$http.get(this.productSrc).then(function (response) {
+                        let product = [];
+                        for (name in response.body) {
+                            if (name == 'photoSrc') {
+                                this.photoSrc = response.body[name];
+                            } else {
+                                product[name] = response.body[name];
+                            }
+
+                        }
+                        this.product = product;
+                    }, function (error) {
+                        this.product = data.product;
+                        this.photoSrc = data.photoSrc;
+                    })
+                },
+                getComments: function () {
+                    this.$http.get(this.commentsSrc).then(function (response) {
+                        this.comments = response.body;
+                    }, function (error) {
+                        this.comments = data.comments;
+                    })
+                },
+                sendComment: function () {
+                    this.$http.get(this.sendCommentSrc).then(function (response) {
+                        this.comments.push({ authorName: this.name, text: this.message });
+                        this.name = '';
+                        this.message = '';
+                    }, function (error) {
+                        //что-то делаем при ошибке отправки комента
+                        //мб модальное окно сделать для показа ошибки
+                    })
+                }
+            },
+            created: function () {
+                this.getParams();
+                this.getComments();
+            }
+        });
+    </script>*@
 }

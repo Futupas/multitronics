@@ -11,16 +11,16 @@
     <meta name="SITE" content="Authors:Vadim Gorkun & Olexandr Panov" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="shortcut icon" href="favicon.png" />
-    @*@Styles.Render("~/bundles/styles")*@
-    <link rel="stylesheet" href="/Content/libs/bootstrap/bootstrap-grid-3.3.1.css" />
+    <link rel="shortcut icon" href="@Url.Content("~/favicon.ico")" />
+    @Styles.Render("~/bundles/styles")
+    @*<link rel="stylesheet" href="/Content/libs/bootstrap/bootstrap-grid-3.3.1.css" />
     <link rel="stylesheet" href="/Content/libs/font-awesome-4.7.0/css/font-awesome.min.css" />
     <link rel="stylesheet" href="/Content/libs/fancybox/jquery.fancybox.css" />
     <link rel="stylesheet" href="/Content/libs/owl-carousel/owl.carousel.css" />
     <link rel="stylesheet" href="/Content/libs/countdown/jquery.countdown.css" />
     <link rel="stylesheet" href="/Content/fonts.css" />
     <link rel="stylesheet" href="/Content/main.css" />
-    <link rel="stylesheet" href="/Content/media.css" />
+    <link rel="stylesheet" href="/Content/media.css" />*@
     @RenderSection("styles", required: false)
 </head>
 <body>
@@ -41,8 +41,8 @@
                         <button class="auth_button hidden-md hidden-lg hidden-sm"><i class="fa fa-sign-in" aria-hidden="true"></i></button>
                         <div class="top_links">
 
-                            <a href="ent.html">Entrance</a> /
-                            <a href="reg.html">Check in</a>
+                            @*<a href="ent.html">Entrance</a> /
+                            <a href="reg.html">Check in</a>*@
 
                         </div>
 
@@ -126,7 +126,7 @@
             <div class="footer-entry">
                 Copyright &copy; 2017
             </div>
-            <div id="scrollup"><img alt="Прокрутить вверх" src="img/icon_scroll.png"></div>
+            <div id="scrollup"><img alt="Прокрутить вверх" src="/img/icon_scroll.png"></div>
         </div>
     </footer>
     <!--[if lt IE 9]>

@@ -53,9 +53,13 @@ namespace Multitronics.Controllers
             return View();
         }
         // Информация о конкретном продукте
-        private ActionResult SomeProductData()
+        [HttpGet]
+        public ActionResult SomeProductData()
         {
-            string WebName = ViewBag.id = RouteData.Values["id"].ToString();
+            string WebName = RouteData.Values["id"].ToString();
+            //string WebName = HttpUtility.UrlDecode(RouteData.Values["id"].ToString());
+            //return Json(new { Encode = HttpUtility.UrlEncode(RouteData.Values["id"].ToString()), Decode = HttpUtility.UrlDecode(RouteData.Values["id"].ToString()), Original = RouteData.Values["id"].ToString() }, JsonRequestBehavior.AllowGet);
+
             SomeProductDataModel product = new SomeProductDataModel();
             using (SqlConnection cn = new SqlConnection())
             {
@@ -63,7 +67,7 @@ namespace Multitronics.Controllers
                 try
                 {
                     cn.Open();
-                    string strSQL = "Select * From [Product] Where [WebName] = '" + WebName + "'";
+                    string strSQL = "Select * From [Product] Where [WebName] = N'" + WebName + "'";
                     SqlCommand myCommand = new SqlCommand(strSQL, cn);
                     SqlDataReader dr = myCommand.ExecuteReader();
                     while (dr.Read())
@@ -72,15 +76,15 @@ namespace Multitronics.Controllers
                         product.Description = dr["Description"].ToString();
                         product.Price = Int32.Parse(dr["Price"].ToString());
                         product.Count = Int32.Parse(dr["Count"].ToString());
-                        product.PhotoSrc = dr["PhotoSrc"].ToString();
+                        product.PhotoSrc = dr["Photo"].ToString();
                         product.Specifications = dr["Specif"].ToString();
                     }
 
-                    return Json(product);
+                    return Json(product, JsonRequestBehavior.AllowGet);
                 }
                 catch (SqlException ex)
                 {
-                    return Json(new { Error = true, Message = ex.Message });
+                    return Json(new { Error = true, Message = ex.Message }, JsonRequestBehavior.AllowGet);
                 }
                 finally
                 {
@@ -90,12 +94,13 @@ namespace Multitronics.Controllers
             }
         }
         // Отзывы о конкретном продукте
+        [HttpGet]
         public ActionResult SomeProductComments()
         {
             string WebName = ViewBag.id = RouteData.Values["id"].ToString();
             List<SomeProductCommentModel> productcomments = new List<SomeProductCommentModel>();
-
-            return Json(productcomments);
+            productcomments.Add(new SomeProductCommentModel { AuthorName = "Vas", Text = "lllol" });
+            return Json(productcomments, JsonRequestBehavior.AllowGet);
         }
         // ~/Product
         public ActionResult Product()
