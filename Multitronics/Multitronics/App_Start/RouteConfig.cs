@@ -19,6 +19,11 @@ namespace Multitronics
                 defaults: new { controller = "Product", action = "SomeProductData" }
             );
             routes.MapRoute(
+                name: "some_product_buy",
+                url: "Product/{id}/buy",
+                defaults: new { controller = "Product", action = "BySomeProduct" }
+            );
+            routes.MapRoute(
                 name: "some_product_comments",
                 url: "Product/{id}/comments",
                 defaults: new { controller = "Product", action = "SomeProductComments" }

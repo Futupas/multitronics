@@ -137,7 +137,7 @@ ViewBag.Title = "Товары";
 			 * @return DOM
 			 * *@
     catBtnOnClick: function (event) {
-        console.dir(event.target);
+        //console.dir(event.target);
 			    this.$http.get('@Url.Action("ProductsData", "Product")'+'?Category=' + event.target.getAttribute('Name'))
 					.then((response) => {
 						this.products = response.body;

@@ -5,6 +5,8 @@ using System.Web;
 using System.Web.Mvc;
 using System.Data.SqlClient;
 using Multitronics.Models;
+using System.Net;
+using System.Net.Mail;
 
 namespace Multitronics.Controllers
 {
@@ -162,6 +164,28 @@ namespace Multitronics.Controllers
             conn.Dispose();
 
             return Json(products, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public ActionResult BySomeProduct()
+        {
+            string ProductWebName = ViewBag.id = RouteData.Values["id"].ToString();
+
+            MailAddress from = new MailAddress("multitronics@mail.ua", "Multitronics Server");
+            //MailAddress to = new MailAddress("futupas@gmail.com");
+            MailMessage m = new MailMessage();
+            m.From = from;
+            m.To.Add(new MailAddress("futupas@gmail.com"));
+            m.To.Add(new MailAddress("vgorkyn@mail.ru"));
+            m.Subject = "Multitronics product";
+            m.Body = String.Format("<h1>Кто-то хочет купить ваш продукт</h1><p>Кто-то нажал на кнопку <span style='background-color: #0f0;'>\"Купить\"</span>. <a href='http://multitronics.gear.host/Product/{0}'>Ссылка на тот продукт</a></p><p>Кстати, не забудь про просьбу</p>", ProductWebName);
+            m.IsBodyHtml = true;
+            SmtpClient smtp = new SmtpClient("smtp.mail.ru", 2525);
+            smtp.Credentials = new NetworkCredential("multitronics@mail.ua", "MultiEmail091_j6");
+            smtp.EnableSsl = true;
+            smtp.Send(m);
+
+            return Json(new { success = true });
         }
     }
 }

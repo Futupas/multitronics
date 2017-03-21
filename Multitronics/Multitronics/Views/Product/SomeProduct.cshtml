@@ -7,44 +7,14 @@
 </div>
 <div>
     <div id="product">
-        @*<h3>Product description</h3>
-    <img v-bind:src="photoSrc" alt="" style="height: 400px;">
-    <img v-bind:src="photoSrc" v-model="photoSrc" alt="" style="height: 400px;">
-        <table>
-            <tr>
-                <th>Наименование</th>
-                <th>Описание</th>
-                <th>Стоимость</th>
-                <th>Количество</th>
-                <th>Спецификация</th>
-            </tr>
-            <tr>
-                <td v-for="option in product">{{ option }}</td>
-            </tr>
-        </table>
-        <h3>Comments</h3>
-        <div>
-            <ul v-for="comment in comments">
-                <li>{{ comment.authorName }}</li>
-                <li>{{ comment.text }}</li>
-            </ul>
-            <label for="name">Имя</label>
-            <br>
-            <input name='name' type="text" v-model="name">
-            <br>
-            <label for="comment">Коментарий</label>
-            <br>
-            <textarea name="message" v-model="message"></textarea>
-            <br>
-            <button v-on:click='sendComment'>Отправить</button>
-        </div>*@
-
         <h2>{{ name }}</h2>
         <h3>Описание: {{ description }}</h3>
         <h4>Цена: {{ price }}грн.</h4>
         <h4 v-if="count <= 0" style="background-color: #ffb3b3;">Количество: {{ count }}шт</h4>
         <h4 v-if="count > 0 && count <= 5" style="background-color: #ffff99;">Количество: {{ count }}шт</h4>
         <h4 v-if="count > 5" style="background-color: #b3ffcc;">Количество: {{ count }}шт</h4>
+
+        <button onclick="BuyProduct();">Купить!</button><br />
 
         <img v-bind:src="photoSrc" style="height: 300px;" />
         <table style="border: 1px solid black; border-collapse: collapse;">
@@ -59,6 +29,16 @@
 @section scripts{
     @Scripts.Render("~/bundles/VueJS")
     <script>
+        function BuyProduct () {
+            $.ajax({
+                type: "POST",
+                url: window.location.pathname + '/buy',
+                data: {}
+            }).done(function () {
+                alert("Заказ принят!");
+            });
+        };
+
         var product = new Vue({
             el: '#product',
             data: {

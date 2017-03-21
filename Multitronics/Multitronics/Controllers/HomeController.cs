@@ -44,10 +44,13 @@ namespace Multitronics.Controllers
             //SendEmailAsync(name, phone).GetAwaiter();
 
             MailAddress from = new MailAddress("multitronics@mail.ua", "Multitronics Server");
-            MailAddress to = new MailAddress("futupas@gmail.com");
-            MailMessage m = new MailMessage(from, to);
+            //MailAddress to = new MailAddress("futupas@gmail.com");
+            MailMessage m = new MailMessage();
+            m.From = from;
+            m.To.Add(new MailAddress("futupas@gmail.com"));
+            m.To.Add(new MailAddress("vgorkyn@mail.ru"));
             m.Subject = "Multitronics phone call";
-            m.Body = "<h2>Письмо-тест работы smtp-клиента</h2>" + String.Format("<p>Name: {0};<br />Phone: {1}.</p>", name, phone);
+            m.Body = String.Format("<h1>Новая просьба об обратном звонке</h1><p>Пользователь {0} попросил перезвонить ему по номеру {1}.</p>", name, phone);
             m.IsBodyHtml = true;
             SmtpClient smtp = new SmtpClient("smtp.mail.ru", 2525);
             smtp.Credentials = new NetworkCredential("multitronics@mail.ua", "MultiEmail091_j6");
@@ -61,8 +64,6 @@ namespace Multitronics.Controllers
         [ValidateInput(false)]
         public ActionResult SendMail(string MyName, string To, string Subject, string Body, bool IsHTML)
         {
-            //SendEmailAsync(name, phone).GetAwaiter();
-
             MailAddress from = new MailAddress("multitronics@mail.ua", MyName);
             MailAddress to = new MailAddress(To);
             MailMessage m = new MailMessage(from, to);
