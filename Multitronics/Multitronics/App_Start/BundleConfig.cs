@@ -57,7 +57,7 @@ namespace Multitronics
                 "~/Content/libs/owl-carousel/owl.carousel.js",
                 "~/Content/libs/countdown/jquery.plugin.js",
                 "~/Content/libs/countdown/jquery.countdown.js", //Not min
-                "~/Content/libs/countdown/jquery.countdown-ru.js",
+                //"~/Content/libs/countdown/jquery.countdown-ru.js",
                 "~/Content/libs/landing-nav/navigation.js",
                 "~/Scripts/common.js"));
             bundles.Add(new ScriptBundle("~/bundles/VueJS").Include(

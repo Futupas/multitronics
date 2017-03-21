@@ -34,7 +34,7 @@ ViewBag.Title = "Товары";
         </div>
     </div>
     <div class="col-md-9">
-        <div v-for="prod in products" class="product-item col-md-4" style="padding: 10px; border: 2px solid black; border-radius: 10px;">
+        @*<div v-for="prod in products" class="product-item col-md-4" style="padding: 10px; border: 2px solid black; border-radius: 10px;">
             <center><h2>{{ prod.Name }}</h2></center>
             <div class="photo">
                 <img v-bind:src="prod.PhotoSrc" alt="" style="height: 100px;">
@@ -44,6 +44,20 @@ ViewBag.Title = "Товары";
             <p class="button">
                 <center><a class="green" v-bind:href="('/Product/'+prod.Href)">Посмотреть товар</a></center>
             </p>
+        </div>*@
+        <div class="col-md-4" v-for="prod in products">
+            <div id="product-list">
+
+                <div class="product-item">
+                    <p class="name">{{ prod.Name }}</p>
+                    <div class="photo">
+                        <img v-bind:src="prod.PhotoSrc" alt="">
+                    </div>
+                    <p class="desc">{{ prod.Description }}</p>
+                    <p class="price">Цена: {{ prod.Price }}грн</p>
+                    <p class="button"><a class="green" v-bind:href="('/Product/'+prod.Href)">Посмотреть товар</a></p>
+                </div>
+            </div>
         </div>
     </div>
 </div>

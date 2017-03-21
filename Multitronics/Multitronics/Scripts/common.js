@@ -87,8 +87,8 @@ $(document).ready(function() {
 	//Документация: http://api.jquery.com/jquery.ajax/
 	$("#callback").submit(function() {
 		$.ajax({
-			type: "GET",
-			url: "mail.php",
+			type: "POST",
+			url: "/CallBack",
 			data: $("#callback").serialize()
 		}).done(function() {
 			alert("Спасибо за заявку!");
@@ -98,5 +98,21 @@ $(document).ready(function() {
 		});
 		return false;
 	});
-
 });
+
+//function SendMail( MyName, To, Subject, Body, IsHtml ) {
+//    $.ajax({
+//        type: "POST",
+//        url: "/SendMail",
+//        data: {
+//            MyName: MyName, 
+//            To: To, 
+//            Subject: Subject, 
+//            Body: Body, 
+//            IsHTML: IsHtml
+//        }
+//    }).done(function () {
+//        console.log('Mail was successfully sent!');
+//    });
+//    return true;
+//}

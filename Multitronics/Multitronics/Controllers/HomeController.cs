@@ -4,6 +4,9 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Data.SqlClient;
+using System.Net;
+using System.Net.Mail;
+using System.Threading.Tasks;
 
 namespace Multitronics.Controllers
 {
@@ -32,6 +35,46 @@ namespace Multitronics.Controllers
         public ActionResult Contacts()
         {
             return View();
-        }                
+        }
+
+
+        [HttpPost]
+        public ActionResult CallBack(string name, string phone)
+        {
+            //SendEmailAsync(name, phone).GetAwaiter();
+
+            MailAddress from = new MailAddress("multitronics@mail.ua", "Multitronics Server");
+            MailAddress to = new MailAddress("futupas@gmail.com");
+            MailMessage m = new MailMessage(from, to);
+            m.Subject = "Multitronics phone call";
+            m.Body = "<h2>Письмо-тест работы smtp-клиента</h2>" + String.Format("<p>Name: {0};<br />Phone: {1}.</p>", name, phone);
+            m.IsBodyHtml = true;
+            SmtpClient smtp = new SmtpClient("smtp.mail.ru", 2525);
+            smtp.Credentials = new NetworkCredential("multitronics@mail.ua", "MultiEmail091_j6");
+            smtp.EnableSsl = true;
+            smtp.Send(m);
+
+            return Json(new { name = name, phone = phone });
+        }
+
+        [HttpPost]
+        [ValidateInput(false)]
+        public ActionResult SendMail(string MyName, string To, string Subject, string Body, bool IsHTML)
+        {
+            //SendEmailAsync(name, phone).GetAwaiter();
+
+            MailAddress from = new MailAddress("multitronics@mail.ua", MyName);
+            MailAddress to = new MailAddress(To);
+            MailMessage m = new MailMessage(from, to);
+            m.Subject = Subject;
+            m.Body = Body;
+            m.IsBodyHtml = IsHTML;
+            SmtpClient smtp = new SmtpClient("smtp.mail.ru", 2525);
+            smtp.Credentials = new NetworkCredential("multitronics@mail.ua", "MultiEmail091_j6");
+            smtp.EnableSsl = true;
+            smtp.Send(m);
+
+            return Json(new { success = true });
+        }
     }
 }

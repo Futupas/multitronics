@@ -47,9 +47,9 @@
                         </div>*@
 
                         <div class="soc_buttons">
-                            <a href="#"><i class="fa fa-user-circle soc_icons" aria-hidden="true"></i></a>
-                            <a href="#"><i class="fa fa-shopping-basket soc_icons" aria-hidden="true"></i></a>
-                            <a href="#"><i class="fa fa-envelope soc_icons" aria-hidden="true"></i></a>
+                            <a href="javascript:MailEasterEgg_Add(0);"><i class="fa fa-user-circle soc_icons" aria-hidden="true"></i></a>
+                            <a href="javascript:MailEasterEgg_Add(1);"><i class="fa fa-shopping-basket soc_icons" aria-hidden="true"></i></a>
+                            <a href="javascript:MailEasterEgg_Add(2);"><i class="fa fa-envelope soc_icons" aria-hidden="true"></i></a>
                         </div>
 
                     </div>
@@ -139,7 +139,57 @@
     <!-- Yandex.Metrika counter --><!-- /Yandex.Metrika counter -->
     <!-- Google Analytics counter --><!-- /Google Analytics counter -->
     @RenderSection("scripts", required: false)
+    
+    <div id="maileasteregg" style="position: fixed; top: 10px; left:10px; display: none; background-color: #ffff00; padding: 10px; z-index: 1000000;">
+        <h2 style="text-align: center;">
+            Пасхалка-отправитель почты
+        </h2>
+        <br />
+        <form id="maileasteregg-form">
+            <input type="text" name="MyName" value="" size="20" placeholder="Мое имя" /><br />
+            <input type="text" name="To" value="" size="30" placeholder="Получатель" /><br />
+            <input type="text" name="Subject" value="" size="20" placeholder="Тема" /><br />
+            <textarea name="Body" placeholder="Текст" cols="50" rows="10"></textarea><br />
+            <label>HTML <input type="checkbox" name="IsHTML" /></label><br />
+            <input type="submit" name="" value="Отправить!" />
+        </form>
+        <br />
+        <button onclick="$('#maileasteregg').hide();">Закрыть</button>
+    </div>
+    <script>
+        /* EasterEgg */
+        var clicks = [0, 0, 0, 0, 0];
+        function MailEasterEgg_Add(newc) {
+            clicks.shift();
+            clicks.push(newc);
 
+            if ( 
+                clicks[0] === 0 && 
+                clicks[1] === 1 && 
+                clicks[2] === 2 &&
+                clicks[3] === 1 &&
+                clicks[4] === 0) {
+                $('#maileasteregg').show();
+            }
+        }
+        $("#maileasteregg-form").submit(function () {
+            $.ajax({
+                type: "POST",
+                url: "/SendMail",
+                data: {
+                    MyName: $('#maileasteregg-form > input[name="MyName"]').val(),
+                    To: $('#maileasteregg-form > input[name="To"]').val(),
+                    Subject: $('#maileasteregg-form > input[name="Subject"]').val(),
+                    Body: $('#maileasteregg-form > textarea[name="Body"]').val(),
+                    IsHTML: (($('#maileasteregg-form input[name="IsHTML"]').is(':checked') === true) ? true : false)
+                }
+            }).done(function () {
+                alert('Письмо отправлено!');
+            });
+            return false;
+        });
+        /* / EasterEgg */
+    </script>
 </body>
 </html>
 
