@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Configuration;
 using System.Web.Mvc;
 using System.Data.SqlClient;
 using Multitronics.Models;
@@ -65,7 +66,7 @@ namespace Multitronics.Controllers
             SomeProductDataModel product = new SomeProductDataModel();
             using (SqlConnection cn = new SqlConnection())
             {
-                cn.ConnectionString = @"Server=mssql3.gear.host;Database=multitronics;User Id=multitronics;Password=Jl8bl98_?E2o;";
+                cn.ConnectionString = GetConnectionStringByName("MainProductConnection");
                 try
                 {
                     cn.Open();
@@ -120,7 +121,7 @@ namespace Multitronics.Controllers
             List<CategoryModel> categories = new List<CategoryModel>();
 
             SqlConnection conn = new SqlConnection();
-            conn.ConnectionString = @"Server=mssql3.gear.host;Database=multitronics;User Id=multitronics;Password=Jl8bl98_?E2o;";
+            conn.ConnectionString = GetConnectionStringByName("MainProductConnection");
             SqlCommand command = new SqlCommand("SELECT * FROM [dbo].[Category];", conn);
             conn.Open();
             SqlDataReader reader = command.ExecuteReader();
@@ -144,7 +145,7 @@ namespace Multitronics.Controllers
             int CategoryID = Int32.Parse(Category);
 
             SqlConnection conn = new SqlConnection();
-            conn.ConnectionString = @"Server=mssql3.gear.host;Database=multitronics;User Id=multitronics;Password=Jl8bl98_?E2o;";
+            conn.ConnectionString = GetConnectionStringByName("MainProductConnection");
             SqlCommand command = new SqlCommand(String.Format("SELECT * FROM [dbo].[Product] WHERE [CategoryID]={0};", CategoryID), conn);
             conn.Open();
             SqlDataReader reader = command.ExecuteReader();
@@ -187,5 +188,23 @@ namespace Multitronics.Controllers
 
             return Json(new { success = true });
         }
+
+
+        static string GetConnectionStringByName(string name)
+        {
+            // Assume failure.
+            string returnValue = null;
+
+            // Look for the name in the connectionStrings section.
+            ConnectionStringSettings settings =
+                ConfigurationManager.ConnectionStrings[name];
+
+            // If found, return the connection string.
+            if (settings != null)
+                returnValue = settings.ConnectionString;
+
+            return returnValue;
+        }
+
     }
 }
