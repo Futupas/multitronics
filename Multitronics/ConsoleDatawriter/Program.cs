@@ -11,32 +11,24 @@ namespace ConsoleDatawriter
 {
     class Program
     {
-        //const string RightRegisterKey = "right";
-        //const string TempRegisterKey = "bad";
-        //static int Registered = 0;
+        static readonly string SettingsFilePath = (Environment.GetEnvironmentVariable("APPDATA") + @"\MultitronicsDataSetter\");
+        const string SettinsFileName = "data.xml";
 
         static XmlDocument SettingsFile;
+
         static string ConnectionString;
-        //static string RegisterKey;
         static void Main(string[] args)
         {
             try
             {
                 Design();
                 Initialize();
-                //RegisterProduct();
-                //if (Registered == 1 || Registered == 2)
-                //{
-                    while (true)
-                    {
-                        Work();
-                    }
-                //}
-            }
-            //catch (RegisterException ex)
-            //{
 
-            //}
+                while (true)
+                {
+                    Work();
+                }
+            }
             catch (MyException ex)
             {
                 Console.WriteLine(ex.Data);
@@ -48,25 +40,8 @@ namespace ConsoleDatawriter
                 Console.ReadKey();
             }
         }
-        //static void RegisterProduct()
-        //{
-        //    if (RegisterKey == RightRegisterKey)
-        //    {
-        //        Registered = 2;
-        //    }
-        //    else if (RegisterKey == TempRegisterKey)
-        //    {
-        //        Registered = 1;
-        //    }
-        //    else
-        //    {
-        //        Registered = 0;
-        //    }
-        //}
         static void Initialize()
         {
-            string SettingsFilePath = (Environment.GetEnvironmentVariable("APPDATA")+@"\MultitronicsDataSetter\");
-            string SettinsFileName = "data.xml";
 
             if (!Directory.Exists(SettingsFilePath))
             {
@@ -98,35 +73,6 @@ namespace ConsoleDatawriter
                     goto start_connstr;
                 }
 
-
-                //start_regkey:
-                //try
-                //{
-                //    RegisterKey = xRoot["registerKey"].InnerText;
-                //    if (RegisterKey != RightRegisterKey && RegisterKey != TempRegisterKey)
-                //    {
-                //        RegisterKey = GetUserRegKey();
-                //        try
-                //        {
-                //            xRoot["registerKey"].AppendChild();
-                //        }
-                //        catch (NullReferenceException ex)
-                //        {
-                //            XmlElement connStr = SettingsFile.CreateElement("registerKey");
-                //            connStr.InnerText = RegisterKey;
-                //            xRoot.AppendChild(connStr);
-                //            SettingsFile.Save(SettingsFilePath + SettinsFileName);
-                //        }
-                //    }
-                //}
-                //catch (NullReferenceException ex)
-                //{
-                //    XmlElement connStr = SettingsFile.CreateElement("registerKey");
-                //    connStr.InnerText = GetUserRegKey();
-                //    xRoot.AppendChild(connStr);
-                //    SettingsFile.Save(SettingsFilePath + SettinsFileName);
-                //    goto start_regkey;
-                //}
             }
             catch (XmlException ex)
             {
@@ -175,29 +121,96 @@ namespace ConsoleDatawriter
                 default: return DefConnStr; break;
             }
         }
-        static string GetUserRegKey()
+        static void ChangeConnStr()
         {
-            Console.Write("Enter your registration key: ");
-            return Console.ReadLine();
+            Console.WriteLine("Enter your connection string: ");
+            string newconnstr = Console.ReadLine();
+            SettingsFile.DocumentElement["connectionString"].InnerText = newconnstr;
+            SettingsFile.Save(SettingsFilePath + SettinsFileName);
+            ConnectionString = newconnstr;
+            Console.WriteLine("Conection string was changed");
         }
 
         static void Work()
         {
-            string input = Console.ReadLine();
-            Console.WriteLine(input);
-            //Console.WriteLine(Registered);
-            Console.WriteLine();
-            Console.ReadLine();
+            string input = Console.ReadLine().ToLowerInvariant();
+            string[] inputs = input.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+            Array.Resize<string>(ref inputs, 5);
+            if (inputs.Length < 5)
+            {
+                for (int i = 4; i >= inputs.Length; i++)
+                {
+                    inputs[i] = null;
+                }
+            }
+            switch (inputs[0])
+            {
+                case "close": Environment.Exit(0); break;
+                case "help":
+                    switch (inputs[1])
+	                {
+                        case null: Console.WriteLine(HelpStrings.HelpString); break;
+                        case "t": Console.WriteLine(HelpStrings.Products); break;
+                        case "c": Console.WriteLine(HelpStrings.Categories); break;
+                        case "settings": Console.WriteLine(HelpStrings.Settings); break;
+                        default:
+                            Console.WriteLine("Unknown command!");
+                            break;
+	                }
+                    break;
+                case "t": 
+                    switch (inputs[1])
+	                {
+                        case null: Console.WriteLine(HelpStrings.Product_variants); break;
+                        case "add":
+                            dynamic newproduct = new
+                            {
+
+                            };
+                            Console.WriteLine("add product");
+                            break;
+                        case "rem": Console.WriteLine("remove product"); break;
+                        case "get": Console.WriteLine("get all products"); break;
+                        default:
+                            Console.WriteLine("Unknown command!");
+                            break;
+	                }
+                    break;
+                case "c":
+                    switch (inputs[1])
+                    {
+                        case null: Console.WriteLine(HelpStrings.Categories_variants); break;
+                        case "add":
+                            dynamic newcategory = new
+                            {
+
+                            };
+                            Console.WriteLine("add category");
+                            break;
+                        case "rem": Console.WriteLine("remove category"); break;
+                        case "get": Console.WriteLine("get all category"); break;
+                        default:
+                            Console.WriteLine("Unknown command!");
+                            break;
+                    }
+                    break;
+                case "settings":
+                    switch (inputs[1])
+                    {
+                        case null: Console.WriteLine(HelpStrings.Settings_variants); break;
+                        case "connstr": ChangeConnStr(); break;
+                        default:
+                            Console.WriteLine("Unknown command!");
+                            break;
+                    }
+                    break;
+                default:
+                    Console.WriteLine("Unknown command!");
+                    break;
+            }
         }
     }
 
-    //public class RegisterException : Exception
-    //{
-    //    public RegisterException()
-    //    {
-
-    //    }
-    //}
     public class MyException : Exception
     {
         public readonly string Data;
@@ -207,5 +220,18 @@ namespace ConsoleDatawriter
             this.Message = message;
             this.Data = data;
         }
+    }
+
+
+    public class HelpStrings
+    {
+        public const string HelpString = "Helo str";
+        public const string Categories = "Helo str c";
+        public const string Products = "Helo str p";
+        public const string Settings = "Helo str s";
+
+        public const string Product_variants = "P var";
+        public const string Categories_variants = "C var";
+        public const string Settings_variants = "S var";
     }
 }
