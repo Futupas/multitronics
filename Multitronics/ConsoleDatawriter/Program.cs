@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Xml;
 using System.Data.SqlClient;
+using ConsoleDatawriter;
 
 namespace ConsoleDatawriter
 {
@@ -163,11 +164,33 @@ namespace ConsoleDatawriter
 	                {
                         case null: Console.WriteLine(HelpStrings.Product_variants); break;
                         case "add":
-                            dynamic newproduct = new
-                            {
+                            var newproduct = new ProductModel();
+                            Console.Write("Name           : "); newproduct.Name = Console.ReadLine();
+                            Console.Write("Category       : "); newproduct.CategoryID = Int32.Parse(Console.ReadLine());
+                            Console.Write("Link : /Product/ "); newproduct.WebName = Console.ReadLine();
+                            Console.Write("Description    : "); newproduct.Description = Console.ReadLine();
+                            Console.Write("Photo          : "); newproduct.PhotoSrc = Console.ReadLine();
+                            Console.Write("Price          : "); newproduct.Price = Int32.Parse(Console.ReadLine());
+                            Console.Write("Count          : "); newproduct.Count = Int32.Parse(Console.ReadLine());
+                            Console.Write("Specifications : "); newproduct.Specif = Console.ReadLine();
+                            Console.Write("Are you sure want to add this product? (y/n): ");
+                            string readln = Console.ReadLine().ToLowerInvariant();
 
-                            };
-                            Console.WriteLine("add product");
+                            if (readln == "y")
+                            {
+                                using (var conn = new SqlConnection())
+                                {
+                                    conn.ConnectionString = ConnectionString;
+                                    conn.Open();
+                                    var command = new SqlCommand(
+                                        String.Format("INSERT INTO [Product] ([CategoryID],[Name],[WebName],[Description],[Photo],[Price],[Count],[Specif]) VALUES ({0},N'{1}',N'{2}',N'{3}',N'{4}',{5},{6},N'{7}');",
+                                        newproduct.CategoryID, newproduct.Name, newproduct.WebName, newproduct.Description, newproduct.PhotoSrc, newproduct.Price, newproduct.Count, newproduct.Specif), 
+                                        conn);
+                                    command.ExecuteReader();
+                                }
+                                Console.WriteLine("Your product was successfully added to database!");
+                            }
+                            
                             break;
                         case "rem": Console.WriteLine("remove product"); break;
                         case "get": Console.WriteLine("get all products"); break;
