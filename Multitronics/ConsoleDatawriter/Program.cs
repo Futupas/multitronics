@@ -188,9 +188,9 @@ namespace ConsoleDatawriter
                             Console.Write("Count          : "); newproduct.Count = Int32.Parse(Console.ReadLine());
                             Console.Write("Specifications : "); newproduct.Specif = Console.ReadLine();
                             Console.Write("Are you sure want to add this product? (y/n): ");
-                            string readln = Console.ReadLine().ToLowerInvariant();
+                            string readln1 = Console.ReadLine().ToLowerInvariant();
 
-                            if (readln == "y")
+                            if (readln1 == "y")
                             {
                                 using (var conn = new SqlConnection())
                                 {
@@ -207,8 +207,26 @@ namespace ConsoleDatawriter
 
                             Console.WriteLine(CommandSepator);
                             break;
-                        case "rem": 
-                            Console.WriteLine("remove product");
+                        case "rem":
+                        case "del": 
+                            Console.Write("Enter ID of product you want to delete: ");
+                            int PrID = Int32.Parse(Console.ReadLine());
+                            Console.Write("Are you sure want to delete this product? (y/n): ");
+                            string readln2 = Console.ReadLine().ToLowerInvariant();
+
+                            if (readln2 == "y")
+                            {
+                                using (var conn = new SqlConnection())
+                                {
+                                    conn.ConnectionString = ConnectionString;
+                                    conn.Open();
+                                    var command = new SqlCommand(
+                                        String.Format("DELETE FROM [Product] WHERE [ID]={0};", PrID), conn);
+                                    command.ExecuteReader();
+                                }
+                                Console.WriteLine("Your product was successfully deleted from database!");
+                            }
+
                             Console.WriteLine(CommandSepator);
                             break;
                         case "get": 
@@ -260,6 +278,24 @@ namespace ConsoleDatawriter
                                             Console.WriteLine("Price        : {0}", reader["Price"]);
                                             Console.WriteLine("Count        : {0}", reader["Count"]);
                                             Console.WriteLine();
+                                        }
+                                    }
+
+                                    Console.WriteLine(CommandSepator);
+                                    break;
+                                case "short":
+                                    using (var conn = new SqlConnection())
+                                    {
+                                        conn.ConnectionString = ConnectionString;
+                                        conn.Open();
+                                        var command = new SqlCommand(
+                                            String.Format("SELECT [ID],[Name] FROM [Product]"),
+                                            conn);
+                                        SqlDataReader reader = command.ExecuteReader();
+                                        Console.WriteLine("Products: ");
+                                        while (reader.Read())
+                                        {
+                                            Console.WriteLine("{0}: {1}", reader["ID"], reader["Name"]);
                                         }
                                     }
 
