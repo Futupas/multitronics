@@ -12,6 +12,7 @@ namespace ConsoleDatawriter
 {
     class Program
     {
+        const string CommandSepator = "----- ----- ----- ----- ----\n";
         static readonly string SettingsFilePath = (Environment.GetEnvironmentVariable("APPDATA") + @"\MultitronicsDataSetter\");
         const string SettinsFileName = "data.xml";
 
@@ -101,7 +102,7 @@ namespace ConsoleDatawriter
             Console.ForegroundColor = ConsoleColor.White;
             Console.BackgroundColor = ConsoleColor.Black;
 
-            Console.WriteLine("Вас приветствует MultitronicsDataSetter");
+            Console.WriteLine("Вас приветствует MultitronicsDataSetter\n\n");
         }
         static string GetUserConnStr()
         {
@@ -150,12 +151,25 @@ namespace ConsoleDatawriter
                 case "help":
                     switch (inputs[1])
 	                {
-                        case null: Console.WriteLine(HelpStrings.HelpString); break;
-                        case "t": Console.WriteLine(HelpStrings.Products); break;
-                        case "c": Console.WriteLine(HelpStrings.Categories); break;
-                        case "settings": Console.WriteLine(HelpStrings.Settings); break;
+                        case null:
+                            Console.WriteLine(HelpStrings.HelpString);
+                            Console.WriteLine(CommandSepator);
+                            break;
+                        case "t": 
+                            Console.WriteLine(HelpStrings.Products);
+                            Console.WriteLine(CommandSepator);
+                            break;
+                        case "c": 
+                            Console.WriteLine(HelpStrings.Categories);
+                            Console.WriteLine(CommandSepator);
+                            break;
+                        case "settings": 
+                            Console.WriteLine(HelpStrings.Settings);
+                            Console.WriteLine(CommandSepator);
+                            break;
                         default:
                             Console.WriteLine("Unknown command!");
+                            Console.WriteLine(CommandSepator);
                             break;
 	                }
                     break;
@@ -190,12 +204,76 @@ namespace ConsoleDatawriter
                                 }
                                 Console.WriteLine("Your product was successfully added to database!");
                             }
-                            
+
+                            Console.WriteLine(CommandSepator);
                             break;
-                        case "rem": Console.WriteLine("remove product"); break;
-                        case "get": Console.WriteLine("get all products"); break;
+                        case "rem": 
+                            Console.WriteLine("remove product");
+                            Console.WriteLine(CommandSepator);
+                            break;
+                        case "get": 
+                            switch (inputs[2])
+	                        {
+                                case "all":
+                                    using (var conn = new SqlConnection())
+                                    {
+                                        conn.ConnectionString = ConnectionString;
+                                        conn.Open();
+                                        var command = new SqlCommand(
+                                            String.Format("SELECT * FROM [Product]"),
+                                            conn);
+                                        SqlDataReader reader = command.ExecuteReader();
+                                        Console.WriteLine("Products: ");
+                                        while (reader.Read())
+                                        {
+                                            Console.WriteLine("ID           : {0}", reader["ID"]);
+                                            Console.WriteLine("Name         : {0}", reader["Name"]);
+                                            Console.WriteLine("CategoryID   : {0}", reader["CategoryID"]);
+                                            Console.WriteLine("Link: /Product/{0}", reader["WebName"]);
+                                            Console.WriteLine("Description  : {0}", reader["Description"]);
+                                            Console.WriteLine("Photo        : {0}", reader["Photo"]);
+                                            Console.WriteLine("Count        : {0}", reader["Count"]);
+                                            Console.WriteLine("Price        : {0}", reader["Price"]);
+                                            Console.WriteLine("Specification: {0}", reader["Specif"]);
+                                            Console.WriteLine();
+                                        }
+                                    }
+
+                                    Console.WriteLine(CommandSepator);
+                                    break;
+                                case null:
+                                    using (var conn = new SqlConnection())
+                                    {
+                                        conn.ConnectionString = ConnectionString;
+                                        conn.Open();
+                                        var command = new SqlCommand(
+                                            String.Format("SELECT [Product].[ID], [Product].[Name], [Category].[Name] AS [CategoryName], [Product].[WebName], [Product].[Price], [Product].[Count] FROM [Product], [Category] WHERE [Product].[CategoryID]=[Category].[ID];"),
+                                            conn);
+                                        SqlDataReader reader = command.ExecuteReader();
+                                        Console.WriteLine("Products: ");
+                                        while (reader.Read())
+                                        {
+                                            Console.WriteLine("ID           : {0}", reader["ID"]);
+                                            Console.WriteLine("СategoryName : {0}", reader["Name"]);
+                                            Console.WriteLine("CategoryID   : {0}", reader["CategoryName"]);
+                                            Console.WriteLine("Link: /Product/{0}", reader["WebName"]);
+                                            Console.WriteLine("Price        : {0}", reader["Price"]);
+                                            Console.WriteLine("Count        : {0}", reader["Count"]);
+                                            Console.WriteLine();
+                                        }
+                                    }
+
+                                    Console.WriteLine(CommandSepator);
+                                    break;
+                                default:
+                                    Console.WriteLine("Unknown command!");
+                                    Console.WriteLine(CommandSepator);
+                                    break;
+	                        }
+                            break;
                         default:
                             Console.WriteLine("Unknown command!");
+                            Console.WriteLine(CommandSepator);
                             break;
 	                }
                     break;
@@ -209,9 +287,17 @@ namespace ConsoleDatawriter
 
                             };
                             Console.WriteLine("add category");
+
+                            Console.WriteLine(CommandSepator);
                             break;
-                        case "rem": Console.WriteLine("remove category"); break;
-                        case "get": Console.WriteLine("get all category"); break;
+                        case "rem": 
+                            Console.WriteLine("remove category");
+                            Console.WriteLine(CommandSepator);
+                            break;
+                        case "get": 
+                            Console.WriteLine("get all category");
+                            Console.WriteLine(CommandSepator);
+                            break;
                         default:
                             Console.WriteLine("Unknown command!");
                             break;
@@ -220,15 +306,23 @@ namespace ConsoleDatawriter
                 case "settings":
                     switch (inputs[1])
                     {
-                        case null: Console.WriteLine(HelpStrings.Settings_variants); break;
-                        case "connstr": ChangeConnStr(); break;
+                        case null: 
+                            Console.WriteLine(HelpStrings.Settings_variants);
+                            Console.WriteLine(CommandSepator);
+                            break;
+                        case "connstr": 
+                            ChangeConnStr();
+                            Console.WriteLine(CommandSepator);
+                            break;
                         default:
                             Console.WriteLine("Unknown command!");
+                            Console.WriteLine(CommandSepator);
                             break;
                     }
                     break;
                 default:
                     Console.WriteLine("Unknown command!");
+                    Console.WriteLine(CommandSepator);
                     break;
             }
         }
