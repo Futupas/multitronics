@@ -1,0 +1,63 @@
+Commands:\n
++-+- help  (gives you informaition)\n
+| +- c  (gives you informaition about working with categories)\n
+| +- t  (gives you informaition about working with products)\n
+|\n
++-+- c\n
+| +- add (add category)\n
+| +- rem (delete category)\n
+| +- del (delete category)\n
+| +-+ get\n
+|   +-  (get categories)\n
+|   +- all (get all info about categories)\n
+|\n
++-+- t\n
+| +- add (add product)\n
+| +- rem (delete product)\n
+| +- del (delete product)\n
+| +-+ get\n
+|   +-  (get products)\n
+|   +- all (get all info about products)\n
+|   +- short (get short info about products)\n
+|\n
++-+- settings\n
+| +- connstr (changes the connection string to database)\n
+|\n
++--------------------------------------------------\n
+
+Commands:\n+-+- help  (gives you informaition)\n| +- c  (gives you informaition about working with categories)\n| +- t  (gives you informaition about working with products)\n|\n+-+- c\n| +- add (add category)\n| +- rem (delete category)\n| +- del (delete category)\n| +-+ get\n|   +-  (get categories)\n|   +- all (get all info about categories)\n|\n+-+- t\n| +- add (add product)\n| +- rem (delete product)\n| +- del (delete product)\n| +-+ get\n|   +-  (get products)\n|   +- all (get all info about products)\n|   +- short (get short info about products)\n|\n+-+- settings\n| +- connstr (changes the connection string to database)\n|\n+--------------------------------------------------\n
+
+
+
+
+Commands:\n
++- add (add category)\n
++- rem (delete category)\n
++- del (delete category)\n
++-+ get\n
+| +-  (get categories)\n
+| +- all (get all info about categories)\n
++-------------------------\n
+
+Commands:\n+- add (add category)\n+- rem (delete category)\n+- del (delete category)\n+-+ get\n| +-  (get categories)\n| +- all (get all info about categories)\n+-------------------------\n
+
+
+Commands:\n
++- add (add product)\n
++- rem (delete product)\n
++- del (delete product)\n
++-+ get\n
+| +-  (get products)\n
+| +- all (get all info about products)\n
+| +- short (get short info about products)\n
++-------------------------\n
+
+Commands:\n+- add (add product)\n+- rem (delete product)\n+- del (delete product)\n+-+ get\n| +-  (get products)\n| +- all (get all info about products)\n| +- short (get short info about products)\n+-------------------------\n
+
+
+Commands:\n
++- connstr (changes the connection string to database)\n
++-------------------------\n
+
+Commands:\n+- connstr (changes the connection string to database)\n+-------------------------\n
+

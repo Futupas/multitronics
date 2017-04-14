@@ -8,7 +8,6 @@ namespace ConsoleDatawriter
 {
     class ProductModel
     {
-        //public int? ID = null;
         public int CategoryID = 0;
         public string Name = "";
         public string WebName = "";
@@ -26,5 +25,16 @@ namespace ConsoleDatawriter
         public string WebName = "";
         public int Price = 0;
         public int count = 0;
+    }
+    class CategoryModel
+    {
+        public int ID = 0;
+        public string Name = "";
+        public string Description = "";
+    }
+    class ShortCategoryModel
+    {
+        public int ID = 0;
+        public string Name = "";
     }
 }

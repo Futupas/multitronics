@@ -2,6 +2,13 @@
 ViewBag.Title = "Товары";
 }
 
+@section search{
+<div class="form-wrapper cf">
+    <input type="text" placeholder="Поиск" id="search_input_field" style="padding-left: 8px;">
+    <button onclick="Search();">Поиск</button>
+</div>
+}
+
 @*<div id="products">
     <div class="col-md-12">
         <button v-for="cat in categories" v-on:click="catBtnOnClick" :name="cat.Id">
@@ -149,5 +156,12 @@ ViewBag.Title = "Товары";
 		}
 	});
 	nav.getCat();
+
+	function Search(){
+	    var val = $('#search_input_field').val();
+	    $.get(('@Url.Action("ProductsData", "Product")'+'?Search='+val), {}, function (response) {
+	        nav.products = response;
+	    });
+	}
 </script>
 }

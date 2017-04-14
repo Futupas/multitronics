@@ -139,32 +139,76 @@ namespace Multitronics.Controllers
             return Json(categories, JsonRequestBehavior.AllowGet);
         }
         // Все продукты конкретной категории
-        public ActionResult ProductsData(string Category)
+        public ActionResult ProductsData(string Category, string Search)
         {
-            List<ProductDataModel> products = new List<ProductDataModel>();
-            int CategoryID = Int32.Parse(Category);
-
-            SqlConnection conn = new SqlConnection();
-            conn.ConnectionString = GetConnectionStringByName("MainProductConnection");
-            SqlCommand command = new SqlCommand(String.Format("SELECT * FROM [dbo].[Product] WHERE [CategoryID]={0};", CategoryID), conn);
-            conn.Open();
-            SqlDataReader reader = command.ExecuteReader();
-            while (reader.Read())
+            if (Category != null)
             {
-                products.Add(new ProductDataModel
+                List<ProductDataModel> products = new List<ProductDataModel>();
+                int CategoryID = Int32.Parse(Category);
+
+                SqlConnection conn = new SqlConnection();
+                conn.ConnectionString = GetConnectionStringByName("MainProductConnection");
+                SqlCommand command = new SqlCommand(String.Format("SELECT * FROM [dbo].[Product] WHERE [CategoryID]={0};", CategoryID), conn);
+                conn.Open();
+                SqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
                 {
-                    Name = (string)reader["Name"],
-                    Description = (string)reader["Description"],
-                    Href = (string)reader["WebName"],
-                    PhotoSrc = (string)reader["Photo"],
-                    Price = (int)reader["Price"],
-               });
+                    products.Add(new ProductDataModel
+                    {
+                        Name = (string)reader["Name"],
+                        Description = (string)reader["Description"],
+                        Href = (string)reader["WebName"],
+                        PhotoSrc = (string)reader["Photo"],
+                        Price = (int)reader["Price"],
+                    });
+                }
+
+                conn.Close();
+                conn.Dispose();
+
+                return Json(products, JsonRequestBehavior.AllowGet);
             }
+            else if (Search != null)
+            {
+                string[] searchquery = Search.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
 
-            conn.Close();
-            conn.Dispose();
+                for (int i = 0; i < searchquery.Length; i++ )
+                {
+                    searchquery[i] = String.Format("(([Name] LIKE N'%{0}%') OR ([Description] LIKE N'%{0}%'))", searchquery[i]);
+                }
 
-            return Json(products, JsonRequestBehavior.AllowGet);
+                string searchquerystr = String.Join(" AND ", searchquery);
+                searchquerystr = "(" + searchquerystr + ")";
+
+                List<ProductDataModel> products = new List<ProductDataModel>();
+
+                SqlConnection conn = new SqlConnection();
+                conn.ConnectionString = GetConnectionStringByName("MainProductConnection");
+                SqlCommand command = new SqlCommand(String.Format("SELECT * FROM [dbo].[Product] WHERE {0};", searchquerystr), conn);
+                conn.Open();
+                SqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    products.Add(new ProductDataModel
+                    {
+                        Name = (string)reader["Name"],
+                        Description = (string)reader["Description"],
+                        Href = (string)reader["WebName"],
+                        PhotoSrc = (string)reader["Photo"],
+                        Price = (int)reader["Price"],
+                    });
+                }
+
+                conn.Close();
+                conn.Dispose();
+
+                return Json(products, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json(new { }, JsonRequestBehavior.AllowGet);
+            }
+            
         }
 
         [HttpPost]

@@ -83,10 +83,12 @@
                         </ul>
                         <div class="search">
 
-                            <form class="form-wrapper cf">
+                            @*<form class="form-wrapper cf">
                                 <input type="text" placeholder="Поиск" required>
                                 <button type="submit">Поиск</button>
-                            </form>
+                            </form>*@
+
+                            @RenderSection("search", required: false)
 
                         </div>
                     </nav>
